@@ -20,6 +20,7 @@ import ScrollToTop from 'src/@core/components/scroll-to-top'
 
 // ** Styled Component
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import VerticalNavHeader from './components/vertical/navigation/VerticalNavHeader'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
@@ -62,16 +63,16 @@ const VerticalLayout = props => {
   return (
     <>
       <VerticalLayoutWrapper className='layout-wrapper'>
-        <Navigation
+        {/* <Navigation
           navWidth={navWidth}
           navVisible={navVisible}
           setNavVisible={setNavVisible}
           toggleNavVisibility={toggleNavVisibility}
           {...props}
-        />
+        /> */}
         <MainContentWrapper className='layout-content-wrapper'>
-          <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
-
+          {/* <AppBar toggleNavVisibility={toggleNavVisibility} {...props} /> */}
+          <VerticalNavHeader />
           <ContentWrapper
             className='layout-page-content'
             sx={{

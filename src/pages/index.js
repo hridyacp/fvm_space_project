@@ -41,6 +41,7 @@ const LoginPage = () => {
       let provider = window.ethereum?.providers
         ? window.ethereum.providers.find(item => !!item.isMetaMask) ?? window.ethereum
         : window.ethereum
+
       const accounts = await provider.request({
         method: 'eth_requestAccounts'
       })

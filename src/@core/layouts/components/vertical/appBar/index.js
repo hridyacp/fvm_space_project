@@ -39,7 +39,7 @@ const LayoutAppBar = props => {
 
   return (
     <AppBar elevation={0} color='default' className='layout-navbar' position='static'>
-      <Toolbar
+      {/* <Toolbar
         className='navbar-content-container'
         sx={{
           ...(contentWidth === 'boxed' && {
@@ -48,7 +48,7 @@ const LayoutAppBar = props => {
         }}
       >
         {(userVerticalAppBarContent && userVerticalAppBarContent(props)) || null}
-      </Toolbar>
+      </Toolbar> */}
     </AppBar>
   )
 }

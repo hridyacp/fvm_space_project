@@ -61,7 +61,8 @@ const BuyerFormPage = () => {
   const [budgetErr, setBudgetErr] = useState(false)
   const [imageErr, setImageErr] = useState(false)
   const [image, setImage] = useState({ avatar: '', url: '' })
-  // ** Hook
+  const [walletAddressErr, setWalletAddressErr] = useState(false)
+
   const theme = useTheme()
 
   const handleImageFormateToBase64 = event => {
@@ -73,10 +74,18 @@ const BuyerFormPage = () => {
       setValues({ image: imageFile[0], budget: values.budget })
     }
   }
+
   const handleOnChange = (event, type) => {
     let updatedFields = {}
-    updatedFields = event.target.value
-    setValues({ image: values.image, budget: updatedFields })
+    updatedFields.budget = event.target.value
+    web3.eth.getAccounts((error, result) => {
+      if (result.length === 0) {
+        setWalletAddressErr(true)
+      } else {
+        updatedFields.walletAddress = result[0]
+      }
+    }),
+      setValues({ image: values.image, budget: updatedFields.budget, walletAddress: updatedFields.walletAddress })
   }
 
   const addData = async () => {
@@ -87,6 +96,7 @@ const BuyerFormPage = () => {
       setImageErr(true)
     } else {
       console.log(values, 'vvvvvvvv')
+
       // const response = await axios.post(`${NEXT_PUBLIC_BASE_URL}api/v1/collection/${id}`,)
     }
   }

@@ -1,7 +1,6 @@
 // ** React Imports
 import { useState, Fragment } from 'react'
 import styles from './sellerForm.module.css'
-// ** Next Imports
 import Link from 'next/link'
 
 // ** MUI Components
@@ -63,20 +62,30 @@ const SellerFormPage = () => {
   // ** States
   const [values, setValues] = useState()
   const [budgetErr, setBudgetErr] = useState(false)
+  const [walletAddressErr, setWalletAddressErr] = useState(false)
 
   // ** Hook
   const theme = useTheme()
 
   const handleOnChange = event => {
     let updatedFields = {}
-    updatedFields = event.target.value
-    setValues(updatedFields)
+    updatedFields.budget = event.target.value
+    web3.eth.getAccounts((error, result) => {
+      if (result.length === 0) {
+        setWalletAddressErr(true)
+      } else {
+        updatedFields.walletAddress = result[0]
+      }
+    }),
+      setValues(updatedFields)
   }
+
   const addBudget = () => {
     if (values.budget === 0) {
       setBudgetErr(true)
     } else {
       console.log(values, 'vvvvvvvv')
+
       // const response = await axios.post(`${NEXT_PUBLIC_BASE_URL}api/v1/collection/${id}`,)
     }
   }

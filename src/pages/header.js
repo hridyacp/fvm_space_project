@@ -120,6 +120,15 @@ const VerticalNavHeader = props => {
             </StyledLink>
           </Link>
         </Grid>
+        <Grid item xs={12} md={4}>
+          <Link href='/dataMarketplace' id='newlink' passHref>
+            <StyledLink>
+              <HeaderTitle variant='h6' sx={{ ml: 3 }}>
+                Marketplace
+              </HeaderTitle>
+            </StyledLink>
+          </Link>
+        </Grid>
       </Grid>
     </MenuHeaderWrapper>
   )
