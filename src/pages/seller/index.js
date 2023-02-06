@@ -1,11 +1,8 @@
 // ** React Imports
 import { useState, Fragment } from 'react'
-// ** MUI Imports
 import Grid from '@mui/material/Grid'
-// ** Next Imports
 import SellerForm from 'src/pages/sellerForm'
 import TableCustomized from 'src/views/tables/TableCustomized'
-// ** MUI Components
 import FormControl from '@mui/material/FormControl'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
@@ -14,6 +11,8 @@ import MuiFormControlLabel from '@mui/material/FormControlLabel'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
+import TableCustomizedSales from 'src/views/tables/TablesCustomizedSales'
+import { useEffect } from 'react'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -37,25 +36,28 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 
 const SellerPage = () => {
   // ** States
-  const [values, setValues] = useState({
-    password: '',
-    showPassword: false
-  })
+  const [orderData, setOrderData] = useState()
+  const [orderDataSales, setOrderDataSales] = useState()
 
   // ** Hook
   const theme = useTheme()
 
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
+  const getData = () => {
+    //get table orderbook data
+    // const response='data from web3 order book'
+    // setOrderData(response)
   }
 
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
+  const getDataSales = () => {
+    //get table orderbook sales data
+    // const response='data from web3 order book'
+    // setOrderDataSales(response)
   }
 
-  const handleMouseDownPassword = event => {
-    event.preventDefault()
-  }
+  useEffect(() => {
+    getData()
+    getDataSales()
+  }, [])
 
   return (
     <div>
@@ -64,7 +66,8 @@ const SellerPage = () => {
           <SellerForm />
         </Grid>
         <Grid item xs={12} md={8}>
-          <TableCustomized />
+          <TableCustomized orderData={orderData} />
+          <TableCustomizedSales orderDataSales={orderDataSales} />
         </Grid>
       </Grid>
     </div>

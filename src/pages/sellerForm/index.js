@@ -34,6 +34,7 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
+import Web3 from 'web3'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
@@ -67,26 +68,26 @@ const SellerFormPage = () => {
   // ** Hook
   const theme = useTheme()
 
+  const web3 = new Web3(
+    Web3.givenProvider ||
+      'https://cool-tiniest-gadget.ethereum-goerli.discover.quiknode.pro/246364df7cda3039117bdc419267d7a7f37110f4/'
+  )
+
   const handleOnChange = event => {
     let updatedFields = {}
+    if (event.target.value !== '') {
+      setBudgetErr(false)
+    }
     updatedFields.budget = event.target.value
-    web3.eth.getAccounts((error, result) => {
-      if (result.length === 0) {
-        setWalletAddressErr(true)
-      } else {
-        updatedFields.walletAddress = result[0]
-      }
-    }),
-      setValues(updatedFields)
+    setValues(updatedFields)
   }
 
-  const addBudget = () => {
+  const addBudget = async () => {
     if (values.budget === 0) {
       setBudgetErr(true)
     } else {
       console.log(values, 'vvvvvvvv')
-
-      // const response = await axios.post(`${NEXT_PUBLIC_BASE_URL}api/v1/collection/${id}`,)
+      const response = await axios.post(`http://localhost:8000/addask`)
     }
   }
 
@@ -181,29 +182,8 @@ const SellerFormPage = () => {
               sx={{ marginBottom: 4 }}
               onClick={e => handleOnChange(e)}
             />
+            {budgetErr ? <span className='text-red'>Please add budget</span> : ''}
             <div className={styles.Formdiv}></div>
-            {/* <FormControl fullWidth>
-              <InputLabel htmlFor='auth-register-password'>Password</InputLabel>
-              <OutlinedInput
-                label='Password'
-                value={values.password}
-                id='auth-register-password'
-                onChange={handleChange('password')}
-                type={values.showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      edge='end'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      aria-label='toggle password visibility'
-                    >
-                      {values.showPassword ? <EyeOutline fontSize='small' /> : <EyeOffOutline fontSize='small' />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl> */}
 
             <Button
               fullWidth

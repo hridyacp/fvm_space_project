@@ -11,6 +11,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell'
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.common.white
+
     // backgroundColor: theme.palette.common.black
   },
   [`&.${tableCellClasses.body}`]: {
@@ -41,7 +42,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9)
 ]
 
-const TableCustomized = () => {
+const TableCustomized = ({ orderData }) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label='customized table'>

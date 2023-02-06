@@ -66,6 +66,7 @@ const BuyerFormPage = () => {
   const theme = useTheme()
 
   const handleImageFormateToBase64 = event => {
+    setImageErr(false)
     let imageFile = event.target.files
     const reader = new FileReader()
     reader.readAsDataURL(imageFile[0])
@@ -77,15 +78,11 @@ const BuyerFormPage = () => {
 
   const handleOnChange = (event, type) => {
     let updatedFields = {}
+    if (event.target.value !== '') {
+      setBudgetErr(false)
+    }
     updatedFields.budget = event.target.value
-    web3.eth.getAccounts((error, result) => {
-      if (result.length === 0) {
-        setWalletAddressErr(true)
-      } else {
-        updatedFields.walletAddress = result[0]
-      }
-    }),
-      setValues({ image: values.image, budget: updatedFields.budget, walletAddress: updatedFields.walletAddress })
+    setValues({ image: values.image, budget: updatedFields.budget })
   }
 
   const addData = async () => {
@@ -95,9 +92,9 @@ const BuyerFormPage = () => {
     if (values.image === '') {
       setImageErr(true)
     } else {
+      setBudgetErr(false)
       console.log(values, 'vvvvvvvv')
-
-      // const response = await axios.post(`${NEXT_PUBLIC_BASE_URL}api/v1/collection/${id}`,)
+      const response = await axios.post(`http://localhost:8000/addbid`, values)
     }
   }
 
@@ -191,6 +188,7 @@ const BuyerFormPage = () => {
               sx={{ marginBottom: 4 }}
               onChange={e => handleImageFormateToBase64(e)}
             />
+            {imageErr ? <span className='text-red'>Please upload file</span> : ''}
             <TextField
               fullWidth
               type='budget'
@@ -198,6 +196,7 @@ const BuyerFormPage = () => {
               sx={{ marginBottom: 4 }}
               onChange={e => handleOnChange(e)}
             />
+            {budgetErr ? <span className='text-red'>Please add budget</span> : ''}
             <Button fullWidth size='large' type='button' variant='contained' sx={{ marginBottom: 7 }} onClick={addData}>
               BUY
             </Button>
