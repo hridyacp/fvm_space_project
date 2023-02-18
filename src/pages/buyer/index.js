@@ -13,6 +13,7 @@ import MuiFormControlLabel from '@mui/material/FormControlLabel'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import TableCustomizedSales from 'src/views/tables/TablesCustomizedSales'
 import { useEffect } from 'react'
+import axios from 'axios'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -42,16 +43,15 @@ const BuyerPage = () => {
   // ** Hook
   const theme = useTheme()
 
-  const getData = () => {
-    //get table orderbook data
-    // const response='data from web3 order book'
-    // setOrderData(response)
+  const getData = async () => {
+    const response = await axios.get(`https://e6ff-2402-3a80-569-97a5-c4ba-8d42-ed45-8cdb.in.ngrok.io/asks`)
+    setOrderData(response)
+    console.log(response)
   }
 
-  const getDataSales = () => {
-    //get table orderbook sales data
-    // const response='data from web3 order book'
-    // setOrderDataSales(response)
+  const getDataSales = async () => {
+    const response = await axios.get(`https://e6ff-2402-3a80-569-97a5-c4ba-8d42-ed45-8cdb.in.ngrok.io/bids`)
+    setOrderDataSales(response)
   }
 
   useEffect(() => {

@@ -45,28 +45,22 @@ const rows = [
 const TableCustomized = ({ orderData }) => {
   return (
     <>
-      {orderData ? (
+      {orderData && orderData?.length !== 0 ? (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                <StyledTableCell align='right'>Calories</StyledTableCell>
-                <StyledTableCell align='right'>Fat (g)</StyledTableCell>
-                <StyledTableCell align='right'>Carbs (g)</StyledTableCell>
-                <StyledTableCell align='right'>Protein (g)</StyledTableCell>
+                <StyledTableCell>Price</StyledTableCell>
+                <StyledTableCell align='right'>Size</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(row => (
-                <StyledTableRow key={row.name}>
+              {orderData?.map(row => (
+                <StyledTableRow key={row?.amount}>
                   <StyledTableCell component='th' scope='row'>
-                    {row.name}
+                    {row?.amount}
                   </StyledTableCell>
-                  <StyledTableCell align='right'>{row.calories}</StyledTableCell>
-                  <StyledTableCell align='right'>{row.fat}</StyledTableCell>
-                  <StyledTableCell align='right'>{row.carbs}</StyledTableCell>
-                  <StyledTableCell align='right'>{row.protein}</StyledTableCell>
+                  <StyledTableCell align='right'>{row?.size}</StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>

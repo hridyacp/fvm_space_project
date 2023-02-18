@@ -61,7 +61,7 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 
 const SellerFormPage = () => {
   // ** States
-  const [values, setValues] = useState()
+  const [values, setValues] = useState(0)
   const [budgetErr, setBudgetErr] = useState(false)
   const [walletAddressErr, setWalletAddressErr] = useState(false)
 
@@ -83,11 +83,11 @@ const SellerFormPage = () => {
   }
 
   const addBudget = async () => {
-    if (values.budget === 0) {
+    if (values === 0) {
       setBudgetErr(true)
     } else {
       console.log(values, 'vvvvvvvv')
-      const response = await axios.post(`http://localhost:8000/addask`)
+      const response = await axios.post(`http://localhost:8000/addask`, values)
     }
   }
 
@@ -96,7 +96,7 @@ const SellerFormPage = () => {
       <Grid container spacing={4} padding={0}>
         <Grid item xs={12} md={6}>
           <Box>
-            <Card sx={{ zIndex: 1, height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '250px' }}>
+            <Card sx={{ zIndex: 1, height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: "100%" }}>
               <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
                 <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg
@@ -173,7 +173,7 @@ const SellerFormPage = () => {
                 </Box>
                 <Box sx={{ mb: 6 }}>
                   <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-                    Buy here 🚀
+                    Sell here 🚀
                   </Typography>
                   {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
                 </Box>
@@ -205,7 +205,7 @@ const SellerFormPage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Box>
-            <Card sx={{ zIndex: 1, height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Card sx={{ zIndex: 1, height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: "100%" }}>
               <div>
                 <Card
                   sx={{
