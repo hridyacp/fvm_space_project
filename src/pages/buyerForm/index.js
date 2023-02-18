@@ -1,4 +1,5 @@
 // ** React Imports
+import * as React from 'react'
 import { useState, Fragment } from 'react'
 
 // ** Next Imports
@@ -10,7 +11,7 @@ import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
-import Input from '@mui/material'
+import Input, { Paper, TableBody, TableCell, TableContainer, TableHead } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import InputLabel from '@mui/material/InputLabel'
 import IconButton from '@mui/material/IconButton'
@@ -35,6 +36,9 @@ import MessageSnackbar from '../../views/snackbar'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+import { Table, TableRow } from 'mdi-material-ui'
+import OrderTable from './orderTable'
+import BidTable from './bidTable'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -72,45 +76,48 @@ const BuyerFormPage = () => {
   const [typeSuccess, setTypeSuccess] = useState('')
 
   const theme = useTheme()
-  axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+  axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'
 
-  const web3 = new Web3(
-    Web3.givenProvider ||
-    'https://api.hyperspace.node.glif.io/rpc/v1'
-  )
+  const web3 = new Web3(Web3.givenProvider || 'https://api.hyperspace.node.glif.io/rpc/v1')
   const nftaddress = '0x2D468b4Fbe35a14b27e47c264fDce63b230cbB1b'
 
-  const handleImageFormateToBase64 = async (event) => {
+  const handleImageFormateToBase64 = async event => {
     setImageErr(false)
     let imageFile = event.target.files
-    const formData = new FormData();
-    formData.append('file', imageFile[0]);
+    const formData = new FormData()
+    formData.append('file', imageFile[0])
 
-    const response = await axios.post(`https://e6ff-2402-3a80-569-97a5-c4ba-8d42-ed45-8cdb.in.ngrok.io/upload`, { file: formData }, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }).catch(() => {
-      setOpen(true);
-      setMessage('CID not created. Please try again');
-      setTypeSuccess('error')
-    });
+    const response = await axios
+      .post(
+        `https://e6ff-2402-3a80-569-97a5-c4ba-8d42-ed45-8cdb.in.ngrok.io/upload`,
+        { file: formData },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      )
+      .catch(() => {
+        setOpen(true)
+        setMessage('CID not created. Please try again')
+        setTypeSuccess('error')
+      })
     if (response && response.data) {
-      setCid(response.data);
-      setOpen(true);
-      setMessage('CID created succesfully. Please add budget to buy');
+      setCid(response.data)
+      setOpen(true)
+      setMessage('CID created succesfully. Please add budget to buy')
       setTypeSuccess('success')
-    }
-    else {
-      setOpen(true);
-      setMessage('CID not created. Please try again');
+    } else {
+      setOpen(true)
+      setMessage('CID not created. Please try again')
       setTypeSuccess('error')
     }
   }
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
   }
+
   const handleOnChange = (event, type) => {
     let updatedFields = {}
     if (event.target.value !== '') {
@@ -122,7 +129,7 @@ const BuyerFormPage = () => {
   }
 
   const addData = async () => {
-    console.log(values, cid, "sssssss")
+    console.log(values, cid, 'sssssss')
     if (values === 0) {
       setBudgetErr(true)
     }
@@ -131,27 +138,30 @@ const BuyerFormPage = () => {
     } else {
       setBudgetErr(false)
       const accounts = await web3.eth.getAccounts()
-      const nftcontract = await new web3.eth.Contract(buyerAbi, nftaddress);
-      await web3.eth.sendTransaction({
-        from: accounts[0],
-        to: nftaddress,
-        data: nftcontract.methods.addBid('0xbA46496e7E5A61a7A9DF5e54Ea330aD20C006d00', Number(values), 12, cid).encodeABI(),
-        gasPrice: 50000000000,
-        value: Number(values),
-      })
+      const nftcontract = await new web3.eth.Contract(buyerAbi, nftaddress)
+      await web3.eth
+        .sendTransaction({
+          from: accounts[0],
+          to: nftaddress,
+          data: nftcontract.methods
+            .addBid('0xbA46496e7E5A61a7A9DF5e54Ea330aD20C006d00', Number(values), 12, cid)
+            .encodeABI(),
+          gasPrice: 50000000000,
+          value: Number(values)
+        })
         .then(function (receipt) {
-          setCid(response.data);
-          setOpen(true);
-          setMessage('Bought succesfully');
+          setCid(response.data)
+          setOpen(true)
+          setMessage('Bought succesfully')
           setTypeSuccess('success')
         })
-        .catch((error) => {
-          console.log("error")
-          setImageErr(true);
-          setOpen(true);
-          setMessage('Transaction failed. Please try again');
+        .catch(error => {
+          console.log('error')
+          setImageErr(true)
+          setOpen(true)
+          setMessage('Transaction failed. Please try again')
           setTypeSuccess('error')
-        });
+        })
     }
   }
 
@@ -160,7 +170,16 @@ const BuyerFormPage = () => {
       <Grid container spacing={4} padding={2}>
         <Grid item xs={12} md={6}>
           <Box>
-            <Card sx={{ zIndex: 1, height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: "100%" }}>
+            <Card
+              sx={{
+                zIndex: 1,
+                height: '90vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                maxWidth: '100%'
+              }}
+            >
               <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
                 <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg
@@ -241,7 +260,7 @@ const BuyerFormPage = () => {
                   </Typography>
                   {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
                 </Box>
-                <form noValidate autoComplete='off' encType="multipart/form-data">
+                <form noValidate autoComplete='off' encType='multipart/form-data'>
                   <TextField
                     name='upload-file'
                     type='file'
@@ -257,7 +276,14 @@ const BuyerFormPage = () => {
                     onChange={e => handleOnChange(e)}
                   />
                   {budgetErr ? <span className='text-red'>Please add budget</span> : ''}
-                  <Button fullWidth size='large' type='button' variant='contained' sx={{ marginBottom: 7 }} onClick={addData}>
+                  <Button
+                    fullWidth
+                    size='large'
+                    type='button'
+                    variant='contained'
+                    sx={{ marginBottom: 7 }}
+                    onClick={addData}
+                  >
                     BUY
                   </Button>
                 </form>
@@ -267,109 +293,112 @@ const BuyerFormPage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Box>
-            <Card sx={{ zIndex: 1, height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: "100%" }}>
+            <Card
+              sx={{
+                zIndex: 1,
+                height: '90vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                maxWidth: '100%'
+              }}
+            >
               <div>
                 <Card
                   sx={{
                     zIndex: 1,
-                    height: "100vh",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <Box>
                     <CardContent
                       sx={{
                         m: 8,
-                        padding: (theme) => `${theme.spacing(12, 9, 7)} !important`,
+                        padding: theme => `${theme.spacing(12, 9, 7)} !important`
                       }}
                     >
                       <Box
                         sx={{
                           mb: 8,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
                         }}
                       >
                         <Typography
-                          variant="h6"
+                          variant='h6'
                           sx={{
                             ml: 3,
                             lineHeight: 1,
                             fontWeight: 600,
-                            textTransform: "uppercase",
-                            fontSize: "1.5rem !important",
+                            textTransform: 'uppercase',
+                            fontSize: '1.5rem !important'
                           }}
                         >
                           Completed Orders
                         </Typography>
                       </Box>
-                      <Box sx={{ mb: 6 }}>
-                        <Typography
-                          variant="h5"
-                          sx={{ fontWeight: 600, marginBottom: 1.5 }}
-                        >
-                          Order ID: {/*  {orderId} */}
-                        </Typography>
-                        {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
-                      </Box>
-                      <Box sx={{ mb: 6 }}>
-                        <Typography
-                          variant="h5"
-                          sx={{ fontWeight: 600, marginBottom: 1.5 }}
-                        >
-                          Data CID: {/*  {dataCidOrder} */}
-                        </Typography>
-                        {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
-                      </Box>
+                      <OrderTable />
+                      {/* <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+                        <Box sx={{ mb: 6 }}>
+                          {/* <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+                            Order ID
+                          </Typography> */}
+                      {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
+                      {/* </Box> */}
+                      {/* <Box sx={{ mb: 6 }}> */}
+                      {/* <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+                            Data CID
+                          </Typography> */}
+                      {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
+                      {/* </Box> */}
+                      {/* </Box> */}
                     </CardContent>
                     <CardContent
                       sx={{
                         m: 8,
-                        padding: (theme) => `${theme.spacing(12, 9, 7)} !important`,
+                        padding: theme => `${theme.spacing(12, 9, 7)} !important`
                       }}
                     >
                       <Box
                         sx={{
                           mb: 8,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
                         }}
                       >
                         <Typography
-                          variant="h6"
+                          variant='h6'
                           sx={{
                             ml: 3,
                             lineHeight: 1,
                             fontWeight: 600,
-                            textTransform: "uppercase",
-                            fontSize: "1.5rem !important",
+                            textTransform: 'uppercase',
+                            fontSize: '1.5rem !important'
                           }}
                         >
                           Recently Added Bid
                         </Typography>
                       </Box>
-                      <Box sx={{ mb: 6 }}>
-                        <Typography
-                          variant="h5"
-                          sx={{ fontWeight: 600, marginBottom: 1.5 }}
-                        >
-                          Bid ID: {/*  {bidId} */}
-                        </Typography>
-                        {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
-                      </Box>
-                      <Box sx={{ mb: 6 }}>
-                        <Typography
-                          variant="h5"
-                          sx={{ fontWeight: 600, marginBottom: 1.5 }}
-                        >
-                          Data CID: {/*  {dataCidBid} */}
-                        </Typography>
-                        {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
-                      </Box>
+                      <BidTable />
+                      {/* <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+                        <Box sx={{ mb: 6 }}>
+                          <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+                            Bid ID
+                          </Typography>
+                          {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
+                      {/* </Box> */}
+                      {/* <Box sx={{ mb: 6 }}>
+                          <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+                            Data CID
+                          </Typography> */}
+                      {/* <Typography variant='body2'>Make your app management easy and fun!</Typography> */}
+                      {/* </Box>  */}
+                      {/* </Box> */}
                     </CardContent>
                   </Box>
                 </Card>
@@ -378,7 +407,13 @@ const BuyerFormPage = () => {
           </Box>
         </Grid>
       </Grid>
-      <MessageSnackbar open={open} autoHideDuration={5000} onClose={handleClose} message={message} severity={typeSuccess} />
+      <MessageSnackbar
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        message={message}
+        severity={typeSuccess}
+      />
     </>
   )
 }
