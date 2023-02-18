@@ -96,7 +96,7 @@ const SellerFormPage = () => {
       <Grid container spacing={4} padding={0}>
         <Grid item xs={12} md={6}>
           <Box>
-            <Card sx={{ zIndex: 1, height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Card sx={{ zIndex: 1, height: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '250px' }}>
               <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
                 <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg
