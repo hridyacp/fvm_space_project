@@ -10,12 +10,13 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    color: theme.palette.common.white
+    color: 'red'
 
     // backgroundColor: theme.palette.common.black
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14
+    fontSize: 14,
+    color: "red"
   }
 }))
 
@@ -27,7 +28,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // hide last border
   '&:last-of-type td, &:last-of-type th': {
     border: 0
-  }
+  },
+
 }))
 
 const createData = (name, calories, fat, carbs, protein) => {
@@ -46,9 +48,12 @@ const TableCustomized = ({ orderData }) => {
   return (
     <>
       {orderData && orderData?.length !== 0 ? (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+        <TableContainer component={Paper} sx={{ maxWidth: 600 }}>
+          <Table sx={{ maxWidth: 600, color: 'red' }} aria-label='customized table'>
             <TableHead>
+              <TableRow align='center'>
+                Asks
+              </TableRow>
               <TableRow>
                 <StyledTableCell>Price</StyledTableCell>
                 <StyledTableCell align='right'>Size</StyledTableCell>

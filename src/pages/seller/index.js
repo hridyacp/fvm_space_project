@@ -62,10 +62,10 @@ const SellerPage = () => {
   return (
     <div>
       <Grid container spacing={6} padding={8}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={7}>
           <SellerForm />
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={5} >
           <TableCustomized orderData={orderData} />
           <TableCustomizedSales orderDataSales={orderDataSales} />
         </Grid>

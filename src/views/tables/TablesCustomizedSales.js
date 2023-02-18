@@ -10,10 +10,11 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    color: theme.palette.common.white
+    color: 'green'
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14
+    fontSize: 14,
+    color: 'green'
   }
 }))
 
@@ -44,9 +45,12 @@ const TableCustomizedSales = ({ orderDataSales }) => {
   return (
     <>
       {orderDataSales && orderDataSales?.length !== 0 ? (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+        <TableContainer component={Paper} sx={{ maxWidth: 600 }}>
+          <Table sx={{ maxWidth: 600, color: 'green' }} aria-label='customized table'>
             <TableHead>
+              <TableRow align='center'>
+                Bids
+              </TableRow>
               <TableRow>
                 <StyledTableCell>Price</StyledTableCell>
                 <StyledTableCell align='right'>Size</StyledTableCell>
@@ -54,7 +58,7 @@ const TableCustomizedSales = ({ orderDataSales }) => {
             </TableHead>
             <TableBody>
               {orderDataSales?.map(row => (
-                <StyledTableRow key={row?.amount}>
+                <StyledTableRow key={row?.amoount}>
                   <StyledTableCell component='th' scope='row'>
                     {row?.amount}
                   </StyledTableCell>
