@@ -20,6 +20,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import MuiCard from '@mui/material/Card'
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
+import Grid from '@mui/material/Grid'
 
 // ** Icons Imports
 import Google from 'mdi-material-ui/Google'
@@ -31,6 +32,8 @@ import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
+import buyerAbi from '../../views/abi/buyer.json'
+import MessageSnackbar from '../../views/snackbar'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -63,16 +66,17 @@ const SellerFormPage = () => {
   // ** States
   const [values, setValues] = useState(0)
   const [budgetErr, setBudgetErr] = useState(false)
-  const [walletAddressErr, setWalletAddressErr] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState('')
+  const [typeSuccess, setTypeSuccess] = useState('')
 
   // ** Hook
   const theme = useTheme()
-
   const web3 = new Web3(
     Web3.givenProvider ||
-    'https://cool-tiniest-gadget.ethereum-goerli.discover.quiknode.pro/246364df7cda3039117bdc419267d7a7f37110f4/'
+    'https://api.hyperspace.node.glif.io/rpc/v1'
   )
-
+  const nftaddress = '0x2D468b4Fbe35a14b27e47c264fDce63b230cbB1b'
   const handleOnChange = event => {
     let updatedFields = {}
     if (event.target.value !== '') {
@@ -82,12 +86,26 @@ const SellerFormPage = () => {
     setValues(updatedFields)
   }
 
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   const addBudget = async () => {
     if (values === 0) {
       setBudgetErr(true)
     } else {
       console.log(values, 'vvvvvvvv')
       const response = await axios.post(`http://localhost:8000/addask`, values)
+      if (response) {
+        setOpen(true);
+        setMessage('Bought succesfully');
+        setTypeSuccess('success')
+      }
+      else {
+        setOpen(true);
+        setMessage('Transaction failed. Please try again');
+        setTypeSuccess('error')
+      }
     }
   }
 
@@ -316,6 +334,7 @@ const SellerFormPage = () => {
           </Box>
         </Grid>
       </Grid>
+      <MessageSnackbar open={open} autoHideDuration={5000} onClose={handleClose} message={message} severity={typeSuccess} />
     </>
   )
 }

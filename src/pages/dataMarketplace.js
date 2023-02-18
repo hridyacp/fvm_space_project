@@ -18,7 +18,8 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled, useTheme } from '@mui/material/styles'
 import Web3 from 'web3'
-
+import buyerAbi from '../../src/views/abi/buyer.json'
+import MessageSnackbar from '../../src/views/snackbar'
 // Styled component for the triangle shaped background image
 const TriangleImg = styled('img')({
   right: 0,
@@ -40,40 +41,68 @@ import { useEffect, useState } from 'react'
 const Dashboard = () => {
   //to store data
   const [data, setData] = useState([])
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState('')
+  const [typeSuccess, setTypeSuccess] = useState('')
   const theme = useTheme()
   const imageSrc = theme.palette.mode === 'light' ? 'triangle-light.png' : 'triangle-dark.png'
 
   const web3 = new Web3(
     Web3.givenProvider ||
-      'https://cool-tiniest-gadget.ethereum-goerli.discover.quiknode.pro/246364df7cda3039117bdc419267d7a7f37110f4/'
+    'https://api.hyperspace.node.glif.io/rpc/v1'
   )
   const nftaddress = '0x30ede7289d52412c22b78741e78BB153A4EF6b07'
 
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   const addBudget = async () => {
     //to Buy
-    const accounts = await web3.eth.getAccounts()
 
-    // const nftcontract = await new web3.eth.Contract(clientABI, nftaddress);
-    // await web3.eth
-    // .sendTransaction({
-    //   from: accounts[0],
-    //   to: nftaddress,
-    //   data: tx.data,
-    //   gasPrice: 50000000000,
-    // })
-    // .then(function (receipt) {
-    //   setapprovEn(true);
-    //   router.push("/client/dashboard");
-    // })
-    // .catch((error) => {
-    //  console.log("error")
-    // });
 
-    // const response = await axios.post(`${NEXT_PUBLIC_BASE_URL}api/v1/collection/${id}`,)
+    // const accounts = await web3.eth.getAccounts()
+    //   const nftcontract = await new web3.eth.Contract(buyerAbi, nftaddress);
+    //   await web3.eth.sendTransaction({
+    //     from: accounts[0],
+    //     to: nftaddress,
+    //     data: nftcontract.methods.addBid('0xbA46496e7E5A61a7A9DF5e54Ea330aD20C006d00', Number(values), 12, cid).encodeABI(),
+    //     gasPrice: 50000000000,
+    //     value: Number(values),
+    //   })
+    //     .then(function (receipt) {
+    //       setOpen(true);
+    //       setMessage('Bought succesfully');
+    //       setTypeSuccess('success')
+    //     })
+    //     .catch((error) => {
+    //       console.log("error")
+    //       setOpen(true);
+    //       setMessage('Transaction failed. Please try again');
+    //       setTypeSuccess('error')
+    //     });
+
   }
 
   const getData = () => {
     //get marketplace NFT data
+    //   const accounts = await web3.eth.getAccounts()
+    //   const nftcontract = await new web3.eth.Contract(buyerAbi, nftaddress);
+    //   await web3.eth.sendTransaction({
+    //     from: accounts[0],
+    //     to: nftaddress,
+    //     data: nftcontract.methods.addBid('0xbA46496e7E5A61a7A9DF5e54Ea330aD20C006d00', Number(values), 12, cid).encodeABI(),
+    //     gasPrice: 50000000000,
+    //     value: Number(values),
+    //   })
+    //     .then(function (receipt) {
+    //add data from web3 o display in nft
+    //       setData()
+    //     })
+    //     .catch((error) => {
+    //       console.log("error")
+    //     });
+    // }
   }
 
   useEffect(() => {
@@ -85,11 +114,11 @@ const Dashboard = () => {
       <Grid container spacing={6}>
         {data && data?.length ? (
           <div>
-            {data.map((menu, index) => (
+            {data?.map((menu, index) => (
               <Grid key={index} item xs={12} md={4}>
                 <Card sx={{ position: 'relative' }}>
                   <CardContent>
-                    <Typography variant='h6'>Congratulations John! 🥳</Typography>
+                    <Typography variant='h6'>menu.name 🥳</Typography>
                     <Typography variant='body2' sx={{ letterSpacing: '0.25px' }}>
                       Best seller of the month
                     </Typography>
@@ -108,6 +137,7 @@ const Dashboard = () => {
           </div>
         ) : null}
       </Grid>
+      <MessageSnackbar open={open} autoHideDuration={5000} onClose={handleClose} message={message} severity={typeSuccess} />
     </ApexChartWrapper>
   )
 }
