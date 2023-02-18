@@ -70,7 +70,7 @@ const SellerFormPage = () => {
 
   const web3 = new Web3(
     Web3.givenProvider ||
-      'https://cool-tiniest-gadget.ethereum-goerli.discover.quiknode.pro/246364df7cda3039117bdc419267d7a7f37110f4/'
+    'https://cool-tiniest-gadget.ethereum-goerli.discover.quiknode.pro/246364df7cda3039117bdc419267d7a7f37110f4/'
   )
 
   const handleOnChange = event => {
